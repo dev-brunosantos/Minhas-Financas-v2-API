@@ -17,10 +17,23 @@ model Usuario {
   dt_atualizacao DateTime @updatedAt()
 
   entradas Entradas[]
+  saidas Saidas[]
 }
 
 model Entradas {
   id_ent Int @id @unique 
+  descricao String
+  valor String 
+
+  dt_criacao DateTime @default(now())
+  dt_atualizacao DateTime @updatedAt()
+
+  id_usuario String
+  usuario Usuario @relation(fields: [id_usuario], references: [id])
+}
+
+model Saidas {
+  id_sai Int @id @unique 
   descricao String
   valor String 
 
