@@ -28,7 +28,7 @@ class UsuarioServices {
     async ListarUsuarios() {
         const usuarios = await usuario.findMany()
         if (usuario) {
-            return { usuario }
+            return { usuarios }
         }
         return { erro: "Não existe nenhum usuário cadastrado no sisitema." }
     }
