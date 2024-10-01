@@ -68,7 +68,7 @@ class UsuarioServices {
 }
 
 class UsuarioLoginServices {
-    async login({ email, senha }: UsuarioDados) {
+    async login(email: string, senha: string) {
         const usuarioExistente = await usuario.findFirst({ where: { email } })
         if (!usuarioExistente) {
             return { erro: "Usuário não cadastrado no sistema. " }
