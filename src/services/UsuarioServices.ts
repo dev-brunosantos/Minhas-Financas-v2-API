@@ -28,7 +28,7 @@ class UsuarioServices {
 
     async ListarUsuarios() {
         const usuarios = await usuario.findMany()
-        if (usuario) {
+        if (usuarios) {
             return { usuarios }
         }
         return { erro: "Não existe nenhum usuário cadastrado no sisitema." }
@@ -101,6 +101,21 @@ class UsuarioLoginServices {
         } catch (error) {
             return { erro: "Não foi possível autenticar o usuário."}
         }
+    }
+
+    // ---> OBS: ESSE CODIGO DEVE SER EXCLUÍDO APÓS A FINALIZAÇÃO DO PROJETO
+    async rotaExclusaoTeste() {
+        const usuarios = await usuario.findMany()
+        
+
+        if(usuarios) {
+           usuarios.forEach( async (user) => {
+            await usuario.delete({ where: { id: user.id }})
+           }) 
+           return { status: "Usuários excluídos do sistema."}
+        }
+        
+        return  { erro: "Nenhum usuário cadastrado no sistema."}
     }
 }
 

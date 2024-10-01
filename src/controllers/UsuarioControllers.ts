@@ -36,6 +36,12 @@ class Usuario {
         const usuarioLogin = await serviceLogin.login(email, senha)
         return res.json(usuarioLogin)
     }
+
+    // ---> OBS: ESSE CODIGO DEVE SER EXCLUÍDO APÓS A FINALIZAÇÃO DO PROJETO
+    async rotaExclusaoTeste(req: Request, res: Response) {
+        const usuarioexistente = await serviceLogin.rotaExclusaoTeste()
+        return res.json(usuarioexistente)
+    }
 }
 
 const UsuarioControllers = new Usuario()

@@ -1,15 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 import { verify } from 'jsonwebtoken'
+import dotenv from 'dotenv'
 
 interface Payload {
     sub: string;
 }
 
+dotenv.config()
 const { SECRET_JWT } = process.env
 
 export default function Autenticacao(req: Request, res: Response, next: NextFunction) {
     const autenticacao = req.headers.authorization
-    const { emall, senha } = req.body;
 
     if(!autenticacao) {
         return res.status(401).json({
