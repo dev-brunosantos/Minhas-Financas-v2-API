@@ -1,5 +1,21 @@
-[
-    {
-        "usuario_cadastrado": "Usuário ja cadastrado no sistema"
+{
+    "usuario_cadastrado": {
+        "sucesso": "Usuário cadastrado com sucesso.",
+        "erro": "Usuário ja cadastrado no sistema"
+    },
+    "usuarios_nao_exisentes": "Não existe nenhum usuário cadastrado no sisitema.",
+    "id_nao_vinculado": "O ID informado não esta vinculado a nenhum usuário.",
+    "usuario_edicao_de_dados": {
+        "sucesso": "A edição foi realizada com sucesso.",
+        "erro": "O ID informado não esta vinculado a nenhum usuário."
+    },
+    "apagar_dados_de_usuario": {
+        "sucesso": "Os dados do usuário foram exluídos do sistema.",
+        "erro": "O ID informado não esta vinculado a nenhum usuário."
+    },
+    "usuario_login": {
+        "erro": "Usuário não cadastrado no sistema.",
+        "erro_senha": "Senha incorreta. Tente novamente ou crie sua conta.",
+        "erro_generico": "Não foi possível autenticar o usuário."
     }
-]
+}
