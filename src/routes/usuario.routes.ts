@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 import { UsuarioControllers } from "../controllers/UsuarioControllers";
 
 const UsuarioRoutes = Router()
@@ -9,4 +9,4 @@ UsuarioRoutes.get('/usuario/:id', UsuarioControllers.usuarioID)
 UsuarioRoutes.put('/usuario/editar/:id', UsuarioControllers.editar)
 UsuarioRoutes.delete('/usuario/apagar/:id', UsuarioControllers.apagar)
 
-export { UsuarioRoutes }
+export { UsuarioRoutes } 
