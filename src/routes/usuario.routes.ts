@@ -9,4 +9,6 @@ UsuarioRoutes.get('/usuario/:id', UsuarioControllers.usuarioID)
 UsuarioRoutes.put('/usuario/editar/:id', UsuarioControllers.editar)
 UsuarioRoutes.delete('/usuario/apagar/:id', UsuarioControllers.apagar)
 
+UsuarioRoutes.post('/login', UsuarioControllers.login)
+
 export { UsuarioRoutes } 
