@@ -1,10 +1,11 @@
-import { Request, Response,  } from "express";
-import { UsuarioServices } from "../services/UsuarioServices";
+import { Request, Response, } from "express";
+import { UsuarioServices, UsuarioLoginServices } from "../services/UsuarioServices";
 
 const service = new UsuarioServices()
+const serviceLogin = new UsuarioLoginServices()
 
 class Usuario {
-    async cadastrar(req: Request, res: Response ) {
+    async cadastrar(req: Request, res: Response) {
         const { nome, email, senha } = req.body
         const criar = await service.cadastrarUsuario({ nome, email, senha })
         return res.json(criar)
@@ -20,7 +21,7 @@ class Usuario {
     }
     async editar(req: Request, res: Response) {
         const { id } = req.params
-        const { nome, email} = req.body 
+        const { nome, email } = req.body
         const editarUsuario = await service.editarUsuario(id, nome, email)
         return res.json(editarUsuario)
     }
@@ -28,6 +29,12 @@ class Usuario {
         const { id } = req.params
         const apagarUsuario = await service.apagarUsuario(id)
         return res.json(apagarUsuario)
+    }
+
+    async login(req: Request, res: Response) {
+        const { email, senha } = req.body
+        const usuarioLogin = await serviceLogin.login(email, senha)
+        return res.json(usuarioLogin)
     }
 }
 
