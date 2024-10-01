@@ -1,5 +1,6 @@
 import { PrismaConfig } from "../config/prisma";
-import { hash } from 'bcrypt'
+import { hash, compare } from 'bcrypt'
+import { sign } from 'jsonwebtoken'
 
 interface UsuarioDados {
     nome: string;
@@ -60,10 +61,47 @@ class UsuarioServices {
         const usuarioId = await usuario.findFirst({ where: { id } })
         if (usuarioId) {
             await usuario.delete({ where: { id } })
-            return { status: `O usuário ${usuarioId.nome} foi exluído do sistema.`}
+            return { status: `O usuário ${usuarioId.nome} foi exluído do sistema.` }
         }
         return { erro: "O ID informado não esta vinculado a nenhum usuário." }
     }
 }
 
-export { UsuarioServices }
+class UsuarioLoginServices {
+    async login({ email, senha }: UsuarioDados) {
+        const usuarioExistente = await usuario.findFirst({ where: { email } })
+        if (!usuarioExistente) {
+            return { erro: "Usuário não cadastrado no sistema. " }
+        }
+
+        const senhaDescriptografada = await compare(senha, usuarioExistente.senha)
+
+        if (!senhaDescriptografada) {
+            return { erro: "Senha incorreta." }
+        }
+
+        try {
+            const dia = new Date()
+            const token = sign(
+                {
+                    id: usuarioExistente.id,
+                    email: usuarioExistente.email,
+                    data: dia.getDate()
+                },
+                process.env.SECRET_JWT as string,
+                {
+                    expiresIn: '1h',
+                    subject: usuarioExistente.id
+                }
+            )
+            return {
+                usuarioExistente,
+                token
+            }
+        } catch (error) {
+            return { erro: "Não foi possível autenticar o usuário."}
+        }
+    }
+}
+
+export { UsuarioServices, UsuarioLoginServices }
