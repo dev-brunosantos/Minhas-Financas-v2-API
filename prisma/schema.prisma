@@ -22,6 +22,7 @@ model Usuario {
 
 model Entradas {
   id_ent Int @id @unique 
+  titulo String @unique
   descricao String
   valor String 
 
@@ -34,6 +35,7 @@ model Entradas {
 
 model Saidas {
   id_sai Int @id @unique 
+  titulo String @unique
   descricao String
   valor String 
 
