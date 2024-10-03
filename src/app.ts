@@ -10,5 +10,6 @@ app.use(cors())
 app.use(routes.UsuarioRoutes)
 app.use(routes.EntradasRoutes)
 app.use(routes.SaidasRoutes)
+app.use(routes.FinancasRoutes)
 
 export { app }
