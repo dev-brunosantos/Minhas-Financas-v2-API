@@ -5,24 +5,37 @@ const { entradas, saidas } = PrismaConfig
 
 class Financas {
     async ValorTotalEntrada(req: Request, res: Response) {
-        const entradasTotal = await entradas.findMany()
-        let valor = 0;
-
-        const total = entradasTotal.map(entrada => { 
-            return valor += parseFloat(entrada.valor)
-        })
-
-        res.json(total[1])
+        const entradasTotal = await entradas.findMany();
+        let valorTotal = entradasTotal.reduce((acc, entrada) => {
+            return acc + parseFloat(entrada.valor);
+        }, 0); // '0' é o valor inicial do acumulador
+    
+        res.json({ total: valorTotal });
     }
+    
     async ValorTotalSaidas(req: Request, res: Response) {
         const saidasTotal = await saidas.findMany()
-        let valor = 0;
+        let valorTotal = saidasTotal.reduce((num, saida) => {
+            return num + parseFloat(saida.valor) 
+        }, 0)
 
-        const total = saidasTotal.map(saida => {
-            return valor += parseFloat(saida.valor) 
-        })
+        res.json(valorTotal)
+    }
 
-        res.json(total)
+    async ValorRestante(req: Request, res: Response) {
+        const entradasTotal = await entradas.findMany();
+        let valorTotalEntrada = entradasTotal.reduce((acc, entrada) => {
+            return acc + parseFloat(entrada.valor);
+        }, 0)
+
+        const saidasTotal = await saidas.findMany()
+        let valorTotalSaida = saidasTotal.reduce((num, saida) => {
+            return num + parseFloat(saida.valor) 
+        }, 0)
+
+        const total = valorTotalEntrada - valorTotalSaida
+
+        return res.json({ restante: total})
     }
 }
 
