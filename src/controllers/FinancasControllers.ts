@@ -1,5 +1,6 @@
 import e, { Request, Response } from "express";
 import { PrismaConfig } from "../config/prisma";
+import { calcularValorTotal } from "../config/CalcularValorTotal";
 
 const { entradas, saidas } = PrismaConfig
 
@@ -24,14 +25,10 @@ class Financas {
 
     async ValorRestante(req: Request, res: Response) {
         const entradasTotal = await entradas.findMany();
-        let valorTotalEntrada = entradasTotal.reduce((acc, entrada) => {
-            return acc + parseFloat(entrada.valor);
-        }, 0)
+        let valorTotalEntrada = calcularValorTotal(entradasTotal, "valor")
 
         const saidasTotal = await saidas.findMany()
-        let valorTotalSaida = saidasTotal.reduce((num, saida) => {
-            return num + parseFloat(saida.valor) 
-        }, 0)
+        let valorTotalSaida = calcularValorTotal(saidasTotal, "valor")
 
         const total = valorTotalEntrada - valorTotalSaida
 
