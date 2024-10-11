@@ -25,19 +25,27 @@ class SaidasServices {
         return { erro: "Ja existe uma entrada cadastrada com esse titulo." }
     }
     async mostrarEntrada() {
-        const todasEntradas = await saidas.findMany()
+        const todasEntradas = await saidas.findMany({
+            select: {
+                id_sai: true,
+                titulo: true,
+                descricao: true,
+                valor: true,
+                dt_criacao: true
+            }
+        })
         if (!todasEntradas) {
             return {
                 erro: "Não existe nenhuma entrada cadastrada no sistema."
             }
         }
 
-        return { todasEntradas }
+        return todasEntradas
     }
     async filtrarEntradaID(id_sai: number) {
         const idEntrada = await saidas.findFirst({ where: { id_sai }})
         if(idEntrada) {
-            return { idEntrada }
+            return idEntrada
         }
         return { erro: "O ID informado não esta vinculado a nenhuma entrada cadastrada no sistema."}
     }

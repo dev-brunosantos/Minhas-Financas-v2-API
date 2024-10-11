@@ -40,7 +40,7 @@ class UsuarioServices {
     async ListarUsuarios() {
         const usuarios = await usuario.findMany()
         if (usuarios) {
-            return { usuarios }
+            return usuarios
         }
         // return { erro: "Não existe nenhum usuário cadastrado no sisitema." }
         return { erro: usuarios_nao_exisentes }
@@ -48,7 +48,7 @@ class UsuarioServices {
     async ListarUsuarioID(id: string) {
         const usuarioID = await usuario.findFirst({ where: { id } })
         if (usuarioID) {
-            return { usuarioID }
+            return usuarioID
         }
         // return { erro: "O ID informado não esta vinculado a nenhum usuário." }
         return { erro: id_nao_vinculado }

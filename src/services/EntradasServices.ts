@@ -25,19 +25,26 @@ class EntradasServices {
         return { erro: "Ja existe uma entrada cadastrada com esse titulo." }
     }
     async mostrarEntrada() {
-        const todasEntradas = await entradas.findMany()
+        const todasEntradas = await entradas.findMany({
+            select: {
+                titulo: true,
+                descricao: true,
+                valor: true,
+                dt_criacao: true
+            }
+        })
         if (!todasEntradas) {
             return {
                 erro: "Não existe nenhuma entrada cadastrada no sistema."
             }
         }
 
-        return { todasEntradas }
+        return todasEntradas
     }
     async filtrarEntradaID(id_ent: number) {
         const idEntrada = await entradas.findFirst({ where: { id_ent }})
         if(idEntrada) {
-            return { idEntrada }
+            return idEntrada
         }
         return { erro: "O ID informado não esta vinculado a nenhuma entrada cadastrada no sistema."}
     }
