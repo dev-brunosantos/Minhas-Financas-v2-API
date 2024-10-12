@@ -7,6 +7,7 @@ class Saidas {
     async criar(req: Request, res: Response) {
         const usuario = req.id_usuario
         const { titulo, descricao, valor } = req.body
+        // const id_usuario = "cc826011-af9c-4c2a-bfc3-dc46de5a9701"
         const saidaId = Math.floor(Math.random() * 1000000000) + 1
 
         const novaEntrada = await sercives.cadastrarEntrada({
