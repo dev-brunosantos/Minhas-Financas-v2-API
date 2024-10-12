@@ -16,8 +16,8 @@ model Usuario {
   dt_criacao DateTime @default(now())
   dt_atualizacao DateTime @updatedAt()
 
-  entradas Entradas[]
-  saidas Saidas[]
+  // entradas Entradas[]
+  // saidas Saidas[]
 }
 
 model Entradas {
@@ -30,7 +30,7 @@ model Entradas {
   dt_atualizacao DateTime @updatedAt()
 
   id_usuario String
-  usuario Usuario @relation(fields: [id_usuario], references: [id])
+  // usuario Usuario @relation(fields: [id_usuario], references: [id])
 }
 
 model Saidas {
@@ -43,5 +43,5 @@ model Saidas {
   dt_atualizacao DateTime @updatedAt()
 
   id_usuario String
-  usuario Usuario @relation(fields: [id_usuario], references: [id])
+  // usuario Usuario @relation(fields: [id_usuario], references: [id])
 }
