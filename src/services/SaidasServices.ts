@@ -17,12 +17,9 @@ class SaidasServices {
             const novaEntrada = await saidas.create({
                 data: { id_sai, titulo, descricao, valor, id_usuario }
             })
-            return {
-                status: "Nova entrada cadastrada com sucesso.",
-                novaEntrada
-            }
+            return "Nova entrada cadastrada com sucesso."
         }
-        return { erro: "Ja existe uma entrada cadastrada com esse titulo." }
+        return "Ja existe uma entrada cadastrada com esse titulo."
     }
     async mostrarEntrada() {
         const todasEntradas = await saidas.findMany({
@@ -35,19 +32,15 @@ class SaidasServices {
             }
         })
         if (!todasEntradas) {
-            return {
-                erro: "Não existe nenhuma entrada cadastrada no sistema."
-            }
+            return "Não existe nenhuma entrada cadastrada no sistema."
         }
 
         return todasEntradas
     }
     async filtrarEntradaID(id_sai: number) {
         const idEntrada = await saidas.findFirst({ where: { id_sai }})
-        if(idEntrada) {
-            return idEntrada
-        }
-        return { erro: "O ID informado não esta vinculado a nenhuma entrada cadastrada no sistema."}
+        if(idEntrada) { return idEntrada }
+        return "O ID informado não esta vinculado a nenhuma entrada cadastrada no sistema."
     }
     async editarEntrada(titulo:string, descricao:string, valor:string) {
         const editarEntrada = await saidas.findFirst({ where: { titulo }})
@@ -68,16 +61,16 @@ class SaidasServices {
                 dados_atualizados: editar
             }
         }
-        return { erro: `Não existe nenhuma entrada cadastrada com o titulo informado: '${titulo}'`}
+        return `Não existe nenhuma entrada cadastrada com o titulo informado: '${titulo}'`
     }
     async apagarEntrada(id_sai: number) {
         const apagar = await saidas.findFirst({ where: { id_sai }})
         if(!apagar) { 
-            return { erro: "Não existe nenhuma entrada com o ID informado."}
+            return "Não existe nenhuma entrada com o ID informado."
         }
 
         await saidas.delete({ where: { id_sai }})
-        return { status: `A entrada ${apagar.titulo} foi deletada.`} 
+        return `A entrada ${apagar.titulo} foi deletada.` 
     }
 }
 
