@@ -11,17 +11,17 @@ interface DadosEntradas {
 }
 
 class SaidasServices {
-    async cadastrarEntrada({ id_sai, titulo, descricao, valor, id_usuario }: DadosEntradas) {
+    async cadastrarSaidas({ id_sai, titulo, descricao, valor, id_usuario }: DadosEntradas) {
         const entradaExistente = await saidas.findFirst({ where: { titulo } })
         if (!entradaExistente) {
-            const novaEntrada = await saidas.create({
+            await saidas.create({
                 data: { id_sai, titulo, descricao, valor, id_usuario }
             })
             return "Nova entrada cadastrada com sucesso."
         }
         return "Ja existe uma entrada cadastrada com esse titulo."
     }
-    async mostrarEntrada() {
+    async mostrarSaidas() {
         const todasEntradas = await saidas.findMany({
             select: {
                 id_sai: true,
@@ -37,12 +37,28 @@ class SaidasServices {
 
         return todasEntradas
     }
-    async filtrarEntradaID(id_sai: number) {
+    async filtrarSaidaNome(titulo:string) {
+        const nomeSaida = await saidas.findFirst({
+            where: { titulo },
+            select: {
+                titulo: true,
+                descricao: true,
+                valor: true,
+                dt_criacao: true
+            }
+        })
+        if(nomeSaida) {
+            return nomeSaida
+        }
+
+        return "Não encontramos nenhuma saida com o nome informado."
+    }
+    async filtrarSaidaID(id_sai: number) {
         const idEntrada = await saidas.findFirst({ where: { id_sai }})
         if(idEntrada) { return idEntrada }
         return "O ID informado não esta vinculado a nenhuma entrada cadastrada no sistema."
     }
-    async editarEntrada(titulo:string, descricao:string, valor:string) {
+    async editarSaida(titulo:string, descricao:string, valor:string) {
         const editarEntrada = await saidas.findFirst({ where: { titulo }})
         if(editarEntrada) {
             const id_sai = editarEntrada.id_sai
@@ -63,7 +79,7 @@ class SaidasServices {
         }
         return `Não existe nenhuma entrada cadastrada com o titulo informado: '${titulo}'`
     }
-    async apagarEntrada(id_sai: number) {
+    async apagarSaida(id_sai: number) {
         const apagar = await saidas.findFirst({ where: { id_sai }})
         if(!apagar) { 
             return "Não existe nenhuma entrada com o ID informado."
