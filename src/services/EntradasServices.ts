@@ -14,15 +14,12 @@ class EntradasServices {
     async cadastrarEntrada({ id_ent, titulo, descricao, valor, id_usuario }: DadosEntradas) {
         const entradaExistente = await entradas.findFirst({ where: { titulo } })
         if (!entradaExistente) {
-            const novaEntrada = await entradas.create({
+            await entradas.create({
                 data: { id_ent, titulo, descricao, valor, id_usuario }
             })
-            return {
-                status: "Nova entrada cadastrada com sucesso.",
-                novaEntrada
-            }
+            return "Nova entrada cadastrada com sucesso."
         }
-        return { erro: "Ja existe uma entrada cadastrada com esse titulo." }
+        return "Ja existe uma entrada cadastrada com esse titulo."
     }
     async mostrarEntrada() {
         const todasEntradas = await entradas.findMany({
@@ -34,19 +31,15 @@ class EntradasServices {
             }
         })
         if (!todasEntradas) {
-            return {
-                erro: "Não existe nenhuma entrada cadastrada no sistema."
-            }
+            return "Não existe nenhuma entrada cadastrada no sistema."
         }
 
         return todasEntradas
     }
     async filtrarEntradaID(id_ent: number) {
         const idEntrada = await entradas.findFirst({ where: { id_ent }})
-        if(idEntrada) {
-            return idEntrada
-        }
-        return { erro: "O ID informado não esta vinculado a nenhuma entrada cadastrada no sistema."}
+        if(idEntrada) { return idEntrada }
+        return "O ID informado não esta vinculado a nenhuma entrada cadastrada no sistema."
     }
     async editarEntrada(titulo:string, descricao:string, valor:string) {
         const editarEntrada = await entradas.findFirst({ where: { titulo }})
@@ -56,9 +49,7 @@ class EntradasServices {
 
             const editar = await entradas.update({
                 where: { titulo },
-                data: {
-                    id_ent, titulo, descricao, valor, id_usuario
-                }
+                data: { id_ent, titulo, descricao, valor, id_usuario }
             })
 
             return {
@@ -67,16 +58,16 @@ class EntradasServices {
                 dados_atualizados: editar
             }
         }
-        return { erro: `Não existe nenhuma entrada cadastrada com o titulo informado: '${titulo}'`}
+        return `Não existe nenhuma entrada cadastrada com o titulo informado: '${titulo}'`
     }
     async apagarEntrada(id_ent: number) {
         const apagar = await entradas.findFirst({ where: { id_ent }})
         if(!apagar) { 
-            return { erro: "Não existe nenhuma entrada com o ID informado."}
+            return "Não existe nenhuma entrada com o ID informado."
         }
 
         await entradas.delete({ where: { id_ent }})
-        return { status: `A entrada ${apagar.titulo} foi deletada.`} 
+        return `A entrada ${apagar.titulo} foi deletada.` 
     }
 }
 
