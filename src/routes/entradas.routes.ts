@@ -6,6 +6,7 @@ const EntradasRoutes = Router()
 
 EntradasRoutes.post('/entradas/criar', Autenticacao, EntradasControllers.criar)
 EntradasRoutes.get('/entradas', EntradasControllers.listar)
+EntradasRoutes.get('/entradas/nome', EntradasControllers.buscarEntradaNome)
 EntradasRoutes.get('/entradas/:id', EntradasControllers.filtrarEntrada)
 EntradasRoutes.put('/entradas/editar/:id', EntradasControllers.editar)
 EntradasRoutes.delete('/entradas/apagar/:id', EntradasControllers.apagar)

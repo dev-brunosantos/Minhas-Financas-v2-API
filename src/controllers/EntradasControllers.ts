@@ -26,6 +26,11 @@ class Entradas {
         const entradaID = await sercives.filtrarEntradaID(parseInt(id))
         return res.json(entradaID)
     }
+    async buscarEntradaNome(req: Request, res: Response) {
+        const { titulo } = req.body
+        const nomeEntrada = await sercives.buscarEntradaNome(titulo)
+        return res.json(nomeEntrada)
+    }
     async editar(req: Request, res: Response) {
         
         const { titulo, descricao, valor } = req.body

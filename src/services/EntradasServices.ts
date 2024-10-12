@@ -36,6 +36,21 @@ class EntradasServices {
 
         return todasEntradas
     }
+    async buscarEntradaNome(titulo: string) {
+        const nomeEntrada = await entradas.findFirst({
+            where: { titulo },
+            select: {
+                titulo: true,
+                descricao: true,
+                valor: true,
+                dt_criacao: true
+            }
+        })
+        if(nomeEntrada) {
+            return nomeEntrada
+        }
+        return "Não foi encontrado nenhuma entrada com o nome informado."
+    }
     async filtrarEntradaID(id_ent: number) {
         const idEntrada = await entradas.findFirst({ where: { id_ent }})
         if(idEntrada) { return idEntrada }
