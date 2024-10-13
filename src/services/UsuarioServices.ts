@@ -23,13 +23,16 @@ class UsuarioServices {
     async cadastrarUsuario({ nome, email, senha }: UsuarioDados) {
         const usurioExistente = await usuario.findFirst({ where: { email: email } })
         const senhaCriptografada = await hash(senha, 8)
+
+        const { sucesso, erro } = usuario_cadastrado
+
         if (!usurioExistente) {
             const criar = await usuario.create({
                 data: { nome, email, senha: senhaCriptografada }
             })
-            return usuario_cadastrado.sucesso
+            return "Usuário cadastrado com sucesso."
         }
-        return usuario_cadastrado.erro
+        return "Usuário ja cadastrado no sistema"
     }
 
     async ListarUsuarios() {
@@ -37,14 +40,14 @@ class UsuarioServices {
         if (usuarios) {
             return usuarios
         }
-        return usuarios_nao_exisentes
+        return "Não existe nenhum usuário cadastrado no sisitema."
     }
     async ListarUsuarioID(id: string) {
         const usuarioID = await usuario.findFirst({ where: { id } })
         if (usuarioID) {
             return usuarioID
         }
-        return id_nao_vinculado
+        return "O ID informado não esta vinculado a nenhum usuário."
     }
 
     async editarUsuario(id: string, nome: string, email: string) {
@@ -55,20 +58,20 @@ class UsuarioServices {
                 data: { nome, email }
             })
             return {
-                status: usuario_edicao_de_dados.sucesso,
+                status: "A edição foi realizada com sucesso.",
                 dados_antigos: usuarioId,
                 dados_atualizados: editar
             }
         }
-        return usuario_edicao_de_dados.erro
+        return "O ID informado não esta vinculado a nenhum usuário."
     }
 
     async apagarUsuario(id: string) {
         const usuarioId = await usuario.findFirst({ where: { id } })
         if (usuarioId) {
             await usuario.delete({ where: { id } })
-            return apagar_dados_de_usuario.sucesso
-        }return apagar_dados_de_usuario.erro 
+            return "Os dados do usuário foram exluídos do sistema."
+        }return "O ID informado não esta vinculado a nenhum usuário."
     }
 }
 
@@ -76,13 +79,13 @@ class UsuarioLoginServices {
     async login(email: string, senha: string) {
         const usuarioExistente = await usuario.findFirst({ where: { email } })
         if (!usuarioExistente) {
-            return usuario_login.erro
+            return "Usuário não cadastrado no sistema."
         }
 
         const senhaDescriptografada = await compare(senha, usuarioExistente.senha)
 
         if (!senhaDescriptografada) {
-            return usuario_login.erro_senha
+            return "Senha incorreta. Tente novamente ou crie sua conta."
         }
 
         try {
@@ -104,7 +107,7 @@ class UsuarioLoginServices {
                 token
             }
         } catch (error) {
-            return usuario_login.erro_generico
+            return "Não foi possível autenticar o usuário."
         }
     }
 
